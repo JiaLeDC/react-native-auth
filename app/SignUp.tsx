@@ -1,18 +1,18 @@
+import { useAuth } from "@/app/context/AuthContext";
+import { globalStyles } from "@/styles/globalStyles";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
   Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/app/context/AuthContext";
 
 export default function Signup() {
   const { signup } = useAuth();
@@ -48,7 +48,7 @@ export default function Signup() {
     signup(name, email, password);
 
     Alert.alert("Success", "Account created successfully!", [
-      { text: "OK", onPress: () => router.replace("/home") },
+      { text: "OK", onPress: () => router.replace("/Home") },
     ]);
   };
 
@@ -57,18 +57,18 @@ export default function Signup() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <ScrollView contentContainerStyle={style.scrollContainer}>
-        <View style={style.innerContainer}>
-          <Text style={style.title}>Create Account</Text>
+      <ScrollView contentContainerStyle={globalStyles.scrollContainer}>
+        <View style={globalStyles.innerContainer}>
+          <Text style={globalStyles.title}>Create Account</Text>
 
           <View
             style={[
-              style.inputWrapper,
-              focusedInput === "name" && style.inputWrapperFocused,
+              globalStyles.inputWrapper,
+              focusedInput === "name" && globalStyles.inputWrapperFocused,
             ]}
           >
             <TextInput
-              style={style.textInput}
+              style={[globalStyles.textInput, { outline: "none" } as any]}
               placeholder="Full Name"
               value={name}
               onChangeText={setName}
@@ -79,12 +79,12 @@ export default function Signup() {
 
           <View
             style={[
-              style.inputWrapper,
-              focusedInput === "email" && style.inputWrapperFocused,
+              globalStyles.inputWrapper,
+              focusedInput === "email" && globalStyles.inputWrapperFocused,
             ]}
           >
             <TextInput
-              style={style.textInput}
+              style={[globalStyles.textInput, { outline: "none" } as any]}
               placeholder="Email"
               value={email}
               onChangeText={setEmail}
@@ -95,15 +95,14 @@ export default function Signup() {
             />
           </View>
 
-          {/* Password Input with Production-Ready Toggle  */}
           <View
             style={[
-              style.inputWrapper,
-              focusedInput === "password" && style.inputWrapperFocused,
+              globalStyles.inputWrapper,
+              focusedInput === "password" && globalStyles.inputWrapperFocused,
             ]}
           >
             <TextInput
-              style={style.textInput}
+              style={[globalStyles.textInput, { outline: "none" } as any]}
               placeholder="Password"
               secureTextEntry={!isPasswordVisible}
               value={password}
@@ -113,7 +112,7 @@ export default function Signup() {
             />
             <TouchableOpacity
               onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-              style={style.iconContainer}
+              style={globalStyles.iconContainer}
             >
               <Ionicons
                 name={isPasswordVisible ? "eye-off" : "eye"}
@@ -123,83 +122,20 @@ export default function Signup() {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={style.button} onPress={handleSignup}>
-            <Text style={style.buttonText}>Sign Up</Text>
+          <TouchableOpacity style={globalStyles.button} onPress={handleSignup}>
+            <Text style={globalStyles.buttonText}>Sign Up</Text>
           </TouchableOpacity>
 
-          {/* Navigation back to Login [cite: 36] */}
           <TouchableOpacity
             onPress={() => router.push("/Login")}
-            style={style.linkButton}
+            style={globalStyles.linkButton}
           >
-            <Text style={style.linkText}>Already have an account? Login</Text>
+            <Text style={globalStyles.linkText}>
+              Already have an account? Login
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
-
-const style = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  innerContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 25,
-    gap: 15,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333",
-  },
-  inputWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    backgroundColor: "#fff",
-    width: "100%",
-    height: 52,
-    paddingHorizontal: 15,
-  },
-  inputWrapperFocused: {
-    borderColor: "#000",
-    borderWidth: 1.5,
-  },
-  textInput: {
-    flex: 1,
-    height: "100%",
-    fontSize: 16,
-  },
-  iconContainer: {
-    padding: 5,
-  },
-  button: {
-    width: "100%",
-    height: 52,
-    borderRadius: 8,
-    backgroundColor: "black",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "600",
-    fontSize: 16,
-  },
-  linkButton: {
-    marginTop: 15,
-  },
-  linkText: {
-    color: "#007AFF",
-    fontSize: 14,
-  },
-});
