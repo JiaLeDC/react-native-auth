@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -14,6 +15,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width } = Dimensions.get("window");
 
 export default function Signup() {
   const { signup } = useAuth();
@@ -69,7 +72,7 @@ export default function Signup() {
       name={iconName}
       size={18}
       color={focusedInput === field ? colors.primary : colors.textMuted}
-      style={{ marginRight: 10 }}
+      style={{ marginRight: width < 375 ? 8 : 10, flexShrink: 0 }}
     />
   );
 
@@ -152,7 +155,7 @@ export default function Signup() {
                 {inputIcon("password", "lock-closed-outline")}
                 <TextInput
                   style={globalStyles.textInput}
-                  placeholder="At least 6 characters"
+                  placeholder="Min. 6 characters"
                   placeholderTextColor={colors.textMuted}
                   secureTextEntry={!isPasswordVisible}
                   value={password}
@@ -183,7 +186,7 @@ export default function Signup() {
                 {inputIcon("confirm", "shield-checkmark-outline")}
                 <TextInput
                   style={globalStyles.textInput}
-                  placeholder="Repeat your password"
+                  placeholder="Confirm your password"
                   placeholderTextColor={colors.textMuted}
                   secureTextEntry={!isConfirmVisible}
                   value={confirmPassword}

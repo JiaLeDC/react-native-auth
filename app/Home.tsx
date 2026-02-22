@@ -185,7 +185,12 @@ export default function Home() {
           onPress={handleLogout}
           style={[globalStyles.dangerButton, { marginTop: 20 }]}
         >
-          <Ionicons name="log-out-outline" size={20} color={colors.error} />
+          <Ionicons
+            name="log-out-outline"
+            size={20}
+            color={colors.error}
+            style={{ flexShrink: 0 }}
+          />
           <Text style={globalStyles.dangerButtonText}>Sign Out</Text>
         </TouchableOpacity>
       </View>

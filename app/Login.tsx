@@ -5,12 +5,15 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
+  Dimensions,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width } = Dimensions.get("window");
 
 export default function Login() {
   const { login } = useAuth();
@@ -72,7 +75,7 @@ export default function Login() {
               color={
                 focusedInput === "email" ? colors.primary : colors.textMuted
               }
-              style={{ marginRight: 10 }}
+              style={{ marginRight: width < 375 ? 8 : 10, flexShrink: 0 }}
             />
             <TextInput
               style={globalStyles.textInput}
@@ -100,7 +103,7 @@ export default function Login() {
               color={
                 focusedInput === "password" ? colors.primary : colors.textMuted
               }
-              style={{ marginRight: 10 }}
+              style={{ marginRight: width < 375 ? 8 : 10, flexShrink: 0 }}
             />
             <TextInput
               style={globalStyles.textInput}
