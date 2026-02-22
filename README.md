@@ -12,7 +12,7 @@
 
 3. **Start the development server**:
    ```bash
-   npx expo start
+   npm start
    ```
 
 4. **Run on a device/emulator**:
