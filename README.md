@@ -28,3 +28,8 @@
 - `app/SignUp.tsx`: Registration screen with user creation logic.
 - `app/Home.tsx`: Protected dashboard showing user profile.
 - `styles/globalStyles.ts`: Centralized design tokens and component styles.
+
+## Prettier and Lint Fix
+   ```bash
+   npx expo lint --fix
+   ```

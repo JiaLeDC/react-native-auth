@@ -1,5 +1,5 @@
 import { useAuth } from "@/app/context/AuthContext";
-import { globalStyles } from "@/styles/globalStyles";
+import { colors, globalStyles } from "@/app/styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -21,27 +21,21 @@ export default function Login() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateEmail = (email: string) => {
-    return /\S+@\S+\.\S+/.test(email);
-  };
+  const validateEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
 
   const handleLogin = async () => {
     setError("");
-
     if (!email.trim() || !password.trim()) {
       setError("Please fill in all fields.");
       return;
     }
-
     if (!validateEmail(email)) {
       setError("Please enter a valid email format.");
       return;
     }
-
     setIsSubmitting(true);
     const result = await login(email, password);
     setIsSubmitting(false);
-
     if (result.success) {
       router.replace("/Home");
     } else {
@@ -50,75 +44,106 @@ export default function Login() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f5f5f5" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.bg }}>
       <View style={globalStyles.screenContainer}>
-        <Text style={globalStyles.title}>Welcome Back</Text>
+        <View style={[globalStyles.card, { width: "100%" }]}>
+          <Text style={globalStyles.title}>Welcome back</Text>
+          <Text style={globalStyles.subtitle}>
+            Sign in to continue to your account
+          </Text>
 
-        {error ? <Text style={globalStyles.errorText}>{error}</Text> : null}
+          {error ? (
+            <View style={globalStyles.errorContainer}>
+              <Ionicons name="alert-circle" size={16} color={colors.error} />
+              <Text style={globalStyles.errorText}>{error}</Text>
+            </View>
+          ) : null}
 
-        <View
-          style={[
-            globalStyles.inputWrapper,
-            focusedInput === "email" && globalStyles.inputWrapperFocused,
-          ]}
-        >
-          <TextInput
-            style={globalStyles.textInput}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            onFocus={() => setFocusedInput("email")}
-            onBlur={() => setFocusedInput(null)}
-          />
-        </View>
-
-        <View
-          style={[
-            globalStyles.inputWrapper,
-            focusedInput === "password" && globalStyles.inputWrapperFocused,
-          ]}
-        >
-          <TextInput
-            style={globalStyles.textInput}
-            placeholder="Password"
-            secureTextEntry={!isPasswordVisible}
-            value={password}
-            onChangeText={setPassword}
-            onFocus={() => setFocusedInput("password")}
-            onBlur={() => setFocusedInput(null)}
-          />
-          <TouchableOpacity
-            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-            style={globalStyles.iconContainer}
+          <Text style={globalStyles.fieldLabel}>Email</Text>
+          <View
+            style={[
+              globalStyles.inputWrapper,
+              focusedInput === "email" && globalStyles.inputWrapperFocused,
+            ]}
           >
             <Ionicons
-              name={isPasswordVisible ? "eye-off" : "eye"}
-              size={20}
-              color="#666"
+              name="mail-outline"
+              size={18}
+              color={
+                focusedInput === "email" ? colors.primary : colors.textMuted
+              }
+              style={{ marginRight: 10 }}
             />
+            <TextInput
+              style={globalStyles.textInput}
+              placeholder="you@example.com"
+              placeholderTextColor={colors.textMuted}
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              onFocus={() => setFocusedInput("email")}
+              onBlur={() => setFocusedInput(null)}
+            />
+          </View>
+
+          <Text style={globalStyles.fieldLabel}>Password</Text>
+          <View
+            style={[
+              globalStyles.inputWrapper,
+              focusedInput === "password" && globalStyles.inputWrapperFocused,
+            ]}
+          >
+            <Ionicons
+              name="lock-closed-outline"
+              size={18}
+              color={
+                focusedInput === "password" ? colors.primary : colors.textMuted
+              }
+              style={{ marginRight: 10 }}
+            />
+            <TextInput
+              style={globalStyles.textInput}
+              placeholder="Enter your password"
+              placeholderTextColor={colors.textMuted}
+              secureTextEntry={!isPasswordVisible}
+              value={password}
+              onChangeText={setPassword}
+              onFocus={() => setFocusedInput("password")}
+              onBlur={() => setFocusedInput(null)}
+            />
+            <TouchableOpacity
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+              style={globalStyles.iconContainer}
+            >
+              <Ionicons
+                name={isPasswordVisible ? "eye-off-outline" : "eye-outline"}
+                size={20}
+                color={colors.textMuted}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            style={[globalStyles.button, isSubmitting && { opacity: 0.7 }]}
+            onPress={handleLogin}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <ActivityIndicator color="white" />
+            ) : (
+              <Text style={globalStyles.buttonText}>Sign In</Text>
+            )}
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={[globalStyles.button, isSubmitting && { opacity: 0.7 }]}
-          onPress={handleLogin}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <Text style={globalStyles.buttonText}>Login</Text>
-          )}
-        </TouchableOpacity>
 
         <TouchableOpacity
           onPress={() => router.push("/SignUp")}
           style={globalStyles.linkButton}
         >
           <Text style={globalStyles.linkText}>
-            Don&#39;t have an account? Register Now
+            Don&#39;t have an account?{" "}
+            <Text style={globalStyles.linkTextBold}>Create one</Text>
           </Text>
         </TouchableOpacity>
       </View>
