@@ -1,9 +1,8 @@
 import { colors, globalStyles, responsive } from "@/app/styles/globalStyles";
+import { useAuth } from "./context/AuthContext";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAuth } from "./context/AuthContext";
 
 const getInitials = (name: string) =>
   name
@@ -15,11 +14,9 @@ const getInitials = (name: string) =>
 
 export default function Home() {
   const { user, logout } = useAuth();
-  const router = useRouter();
 
   const handleLogout = async () => {
     await logout();
-    router.replace("/Login");
   };
 
   return (

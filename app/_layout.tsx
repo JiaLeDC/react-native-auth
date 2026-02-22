@@ -1,28 +1,21 @@
 import { AuthProvider, useAuth } from "@/app/context/AuthContext";
-import { Stack, useRouter, useSegments } from "expo-router";
-import { useEffect } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ActivityIndicator, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Home from "./Home";
+import Login from "./Login";
+import Signup from "./SignUp";
+
+export type RootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  Home: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootLayoutNav() {
   const { user, isLoading } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLoading) return;
-
-    const authRoutes = ["Login", "SignUp"];
-    const inAuthGroup = authRoutes.includes(segments[0] as string);
-
-    if (!user && !inAuthGroup) {
-      // Redirect to the login page if the user is not authenticated
-      router.replace("/Login");
-    } else if (user && inAuthGroup) {
-      // Redirect away from the login page if the user is authenticated
-      router.replace("/Home");
-    }
-  }, [user, segments, isLoading, router]);
 
   if (isLoading) {
     return (
@@ -32,7 +25,18 @@ function RootLayoutNav() {
     );
   }
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {user ? (
+        <Stack.Screen name="Home" component={Home} />
+      ) : (
+        <>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
 }
 
 export default function RootLayout() {

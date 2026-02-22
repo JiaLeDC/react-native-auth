@@ -1,7 +1,8 @@
 import { useAuth } from "@/app/context/AuthContext";
 import { colors, globalStyles } from "@/app/styles/globalStyles";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -15,12 +16,15 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { RootStackParamList } from "./_layout";
 
 const { width } = Dimensions.get("window");
 
+type NavProp = NativeStackNavigationProp<RootStackParamList>;
+
 export default function Signup() {
   const { signup } = useAuth();
-  const router = useRouter();
+  const navigation = useNavigation<NavProp>();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -60,9 +64,7 @@ export default function Signup() {
     setIsSubmitting(true);
     const result = await signup(name, email, password);
     setIsSubmitting(false);
-    if (result.success) {
-      router.replace("/Home");
-    } else {
+    if (!result.success) {
       setError(result.message);
     }
   };
@@ -220,7 +222,7 @@ export default function Signup() {
             </View>
 
             <TouchableOpacity
-              onPress={() => router.push("/Login")}
+              onPress={() => navigation.navigate("Login")}
               style={globalStyles.linkButton}
             >
               <Text style={globalStyles.linkText}>

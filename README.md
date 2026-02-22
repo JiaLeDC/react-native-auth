@@ -1,35 +1,66 @@
-# User Authentication App (React Native)
+# React Native Authentication Flow
 
-## Setup Instructions
+This project handle user registration and login in React Native apps. It uses Expo and React Navigation library to manage authenticated and unauthenticated states.
 
-1. **Clone the repository**:
+## Key Features
 
+- **Authentication Logic**: Uses React Context to manage user state globally.
+- **Data Persistence**: Uses AsyncStorage to keep users logged in across app restarts.
+- **Navigation**: Uses a Native Stack navigator with conditional routing. If a user is logged in, they see the Home screen; otherwise, they are prompted to Login or Sign Up.
+- **Validation**: Basic form validation for emails and passwords, including matching password confirmation and length checks.
+- **Styling**: All styles are centralized in a global theme file for easy modification.
 
-2. **Install dependencies**:
+## Tech Stack
+
+- Expo
+- React Navigation (Native Stack)
+- TypeScript
+- AsyncStorage for local storage
+- Ionicons for icons
+
+## Project Structure
+
+- `app/context/AuthContext.tsx`: Manages the authentication state and storage operations.
+- `app/_layout.tsx`: Configures the navigation stack and determines which screen to show.
+- `app/Login.tsx`: User login form with error handling.
+- `app/SignUp.tsx`: User registration form.
+- `app/Home.tsx`: A protected profile dashboard visible only after login.
+- `app/styles/globalStyles.ts`: Contains the color palette and reusable style definitions.
+
+## Getting Started
+
+### Prerequisites
+
+You need Node.js and a package manager (npm or yarn) installed on your machine.
+
+### Installation
+
+1. Clone this repository to your local machine.
+2. Install the project dependencies:
    ```bash
    npm install
    ```
 
-3. **Start the development server**:
-   ```bash
-   npm start
-   ```
+### Running the App
 
-4. **Run on a device/emulator**:
+1. Start the Expo development server:
+```bash
+npm start
+```
+
+2. **Run on a device/emulator**:
    - Press `i` for iOS simulator.
    - Press `a` for Android emulator.
    - Press `w` for Web.
 
-##  Project Structure
+## Maintenance
 
-- `app/context/AuthContext.tsx`: The heart of the auth logic, handling persistence and state.
-- `app/_layout.tsx`: Root configuration with protected route guards.
-- `app/Login.tsx`: Login screen with validation and error feedback.
-- `app/SignUp.tsx`: Registration screen with user creation logic.
-- `app/Home.tsx`: Protected dashboard showing user profile.
-- `styles/globalStyles.ts`: Centralized design tokens and component styles.
+To check for code style issues or potential errors:
+```bash
+npx expo lint
+```
 
-## Prettier and Lint Fix
-   ```bash
-   npx expo lint --fix
-   ```
+To automatically fix most linting issues:
+```bash
+npx expo lint --fix
+```
